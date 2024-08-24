@@ -13,4 +13,4 @@ You can think of authentication as having the correct key to unlock a door (prov
 
 Based on the knowledge we've gained, implementing the delete user functionality after authentication is a good idea,  Deleting a user should happen only after verifying their identity (authentication). Otherwise, anyone could potentially delete accounts. 
 
-Furthermore, after authentication, the authenticated user should only be allowed (authorised) to delete their own account. The authenticated user should not be given authorisation to delete anyother account seeing they do not have ownership of that account.
+Furthermore, after authentication, the authenticated user should only be allowed (authorised) to delete their own account. The authenticated user should not be given authorisation to delete any other account seeing they do not have ownership of that account.
