@@ -171,9 +171,9 @@ const update_user_profile = async (req, res) => {
 async function delete_user_by_username(req, res) {
     
     try {
-        const { username } = req.body; // Assuming the username is sent in the request body
+        const { username } = req.body;
         
-        let userName = await get_username(req);
+        let userName = await get_username(req); // Gets username from JWT token by the helper function
 
         // Log the received username
         console.log(`Received request from ${userName} to delete user with username:`, username);
@@ -183,11 +183,18 @@ async function delete_user_by_username(req, res) {
             console.log('Unauthorized request. No authenticated user.');
             return res.status(401).json({ message: 'Unauthorized' });
         }
-
-        // Check if the authenticated user matches the username to be deleted
+        /** 
+        // Checks if the authenticated user matches the username to be deleted
         if (userName !== username) {
             console.log(`User ${userName} attempted to delete a different account (${username}).`);
             return res.status(403).json({ message: 'You can only delete your own account' });
+        }
+        */
+        // Check if user exists
+        let user = await UserModel.findOne({ where: {username: username} })
+
+        if (!user) {
+            return res.status(400).json({ message: "User does not exist", ok: false, })
         }
 
         // Delete the user
@@ -197,7 +204,6 @@ async function delete_user_by_username(req, res) {
             },
         });
 
-        // You can customize the response based on your requirements
         console.log(`User ${username} deleted successfully.`);
         return res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
